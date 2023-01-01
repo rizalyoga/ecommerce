@@ -11,6 +11,7 @@
 export default {
   methods: {
     async fetchData() {
+      this.$store.dispatch("SET_LOADING");
       this.$store.dispatch("SET_NEW_INDEX");
 
       const data = await fetch(
@@ -20,7 +21,7 @@ export default {
       const result = await data.json();
 
       this.$store.dispatch("NEW_DATA_PRODUCT", result);
-      console.log(this.$store.state.index);
+      this.$store.dispatch("SET_LOADING");
     },
   },
 };

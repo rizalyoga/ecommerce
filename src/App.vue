@@ -1,10 +1,18 @@
 <script setup>
 import ProductDisplay from "./components/ProductDisplay.vue";
 import UnvailableProduct from "./components/UnvailableProduct.vue";
+import Loader from "./components/Loader.vue";
 </script>
 
 <template>
   <section
+    v-if="$store.state.loading"
+    class="main-wrapper unvailable-background"
+  >
+    <Loader />
+  </section>
+  <section
+    v-else
     class="main-wrapper"
     :class="{
       'women-background': $store.state.dataProduct?.category?.includes('women'),
@@ -25,10 +33,12 @@ import UnvailableProduct from "./components/UnvailableProduct.vue";
 <script>
 export default {
   mounted() {
+    this.$store.dispatch("SET_LOADING");
     fetch(`https://fakestoreapi.com/products/1`)
       .then((res) => res.json())
       .then((data) => {
         this.$store.dispatch("NEW_DATA_PRODUCT", data);
+        this.$store.dispatch("SET_LOADING");
       })
       .catch((err) => console.error(err));
   },
