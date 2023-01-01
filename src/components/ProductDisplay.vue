@@ -1,26 +1,22 @@
 <template>
   <div class="product-container">
     <div class="product-image">
-      <img src="../assets/image/image-baju.png" alt="product-image" />
+      <img :src="dataProduct.image" alt="product-image" />
     </div>
     <div class="product-description">
       <h2>
-        Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket
+        {{ dataProduct.title }}
       </h2>
       <div class="gender-and-rate-wrapper">
-        <p>women's clothing</p>
-        <p>29.5</p>
+        <p>{{ dataProduct.category }}</p>
+        <p>{{ dataProduct.rate }}/5</p>
       </div>
       <div class="horizontal-line"></div>
       <p class="content-description">
-        100% POLYURETHANE(shell) 100% POLYESTER(lining) 75% POLYESTER 25% COTTON
-        (SWEATER), Faux leather material for style and comfort / 2 pockets of
-        front, 2-For-One Hooded denim style faux leather jacket, Button detail
-        on waist / Detail stitching at sides, HAND WASH ONLY / DO NOT BLEACH /
-        LINE DRY / DO NOT IRON
+        {{ dataProduct.description }}
       </p>
       <div class="horizontal-line"></div>
-      <h3>$29.95</h3>
+      <h3>${{ dataProduct.price }}</h3>
       <div class="buttons-container">
         <button class="buy-button">Buy now</button>
         <button class="next-button" @click="fetchData">Next product</button>
@@ -33,14 +29,31 @@
 export default {
   data() {
     return {
-      index: 19,
+      index: 1,
+      dataProduct: {
+        id: 0,
+        title: "",
+        category: "",
+        description: "",
+        image: "",
+        price: 0,
+        rate: 0,
+      },
     };
   },
-  mounted: async () => {
-    const data = await fetch(`https://fakestoreapi.com/products/1`);
-    const result = await data.json();
-
-    console.log(result);
+  mounted() {
+    fetch(`https://fakestoreapi.com/products/1`)
+      .then((res) => res.json())
+      .then((data) => {
+        this.dataProduct.id = data.id;
+        this.dataProduct.title = data.title;
+        this.dataProduct.category = data.category;
+        this.dataProduct.description = data.description;
+        this.dataProduct.image = data.image;
+        this.dataProduct.price = data.price;
+        this.dataProduct.rate = data.rating.rate;
+      })
+      .catch((err) => console.error(err));
   },
   methods: {
     async fetchData() {
@@ -57,26 +70,34 @@ export default {
       const result = await data.json();
 
       console.log(result);
+      this.dataProduct.id = result.id;
+      this.dataProduct.title = result.title;
+      this.dataProduct.category = result.category;
+      this.dataProduct.description = result.description;
+      this.dataProduct.image = result.image;
+      this.dataProduct.price = result.price;
+      this.dataProduct.rate = result.rating.rate;
     },
   },
 };
 </script>
 
-<style scoped>
+<style>
 .product-image {
   flex-basis: 40%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 80px;
 }
 
 .product-image img {
-  width: 301px;
+  width: 320px;
   height: 383px;
 }
 .product-description {
   flex-basis: 60%;
   padding: 0 40px;
+  padding-top: 30px;
 }
 
 .product-description h2 {
@@ -92,18 +113,23 @@ export default {
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
+  color: var(--category-text);
 }
 
 .content-description {
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
+  min-height: 150px;
+  max-height: 150px;
   padding-bottom: 20px;
+  color: var(--description-text);
+  overflow-y: scroll;
 }
 
 .horizontal-line {
   height: 1.5px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--line-color);
 }
 
 .buttons-container {
@@ -122,6 +148,7 @@ export default {
 }
 .buy-button {
   color: white;
+  border: none;
 }
 .next-button {
   background-color: white;
