@@ -2,17 +2,27 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    index: 0,
+    index: 1,
     dataProduct: {},
   },
   mutations: {
-    PLUS_INDEX(state) {
-      state.index += 1;
+    SET_NEW_INDEX(state) {
+      if (state.index == 20) {
+        state.index = 1;
+      } else {
+        state.index += 1;
+      }
+    },
+    NEW_DATA_PRODUCT(state, dataProduct) {
+      state.dataProduct = dataProduct;
     },
   },
   actions: {
-    PLUS_INDEX(newIndex) {
-      newIndex.commit("PLUS_INDEX");
+    SET_NEW_INDEX(newIndex) {
+      newIndex.commit("SET_NEW_INDEX");
+    },
+    NEW_DATA_PRODUCT(newDataProduct, payload) {
+      newDataProduct.commit("NEW_DATA_PRODUCT", payload);
     },
   },
 });

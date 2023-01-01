@@ -1,25 +1,60 @@
 <template>
   <div class="product-container">
     <div class="product-image">
-      <img :src="dataProduct.image" alt="product-image" />
+      <img :src="$store.state.dataProduct.image" alt="product-image" />
     </div>
     <div class="product-description">
-      <h2>
-        {{ dataProduct.title }}
+      <h2
+        :class="{
+          'women-text': $store.state.dataProduct?.category?.includes('women'),
+          'man-text': !$store.state.dataProduct?.category?.includes('women'),
+        }"
+      >
+        {{ $store.state.dataProduct.title }}
       </h2>
       <div class="gender-and-rate-wrapper">
-        <p>{{ dataProduct.category }}</p>
-        <p>{{ dataProduct.rate }}/5</p>
+        <p>{{ $store.state.dataProduct.category }}</p>
+        <p>{{ $store.state.dataProduct?.rating?.rate }}/5</p>
       </div>
       <div class="horizontal-line"></div>
       <p class="content-description">
-        {{ dataProduct.description }}
+        {{ $store.state.dataProduct.description }}
       </p>
       <div class="horizontal-line"></div>
-      <h3>${{ dataProduct.price }}</h3>
+      <h3
+        :class="{
+          'women-text': $store.state.dataProduct?.category?.includes('women'),
+          'man-text': !$store.state.dataProduct?.category?.includes('women'),
+        }"
+      >
+        ${{ $store.state.dataProduct.price }}
+      </h3>
       <div class="buttons-container">
-        <button class="buy-button">Buy now</button>
-        <button class="next-button" @click="fetchData">Next product</button>
+        <button
+          class="buy-button"
+          :class="{
+            'women-buy-button':
+              $store.state.dataProduct?.category.includes('women'),
+            'man-buy-button':
+              !$store.state.dataProduct?.category.includes('women'),
+          }"
+        >
+          Buy now
+        </button>
+        <button
+          class="next-button"
+          :class="{
+            'women-text': $store.state.dataProduct?.category.includes('women'),
+            'women-border-next-button':
+              $store.state.dataProduct?.category.includes('women'),
+            'man-text': !$store.state.dataProduct?.category.includes('women'),
+            'man-border-next-button':
+              !$store.state.dataProduct?.category.includes('women'),
+          }"
+          @click="fetchData"
+        >
+          Next product
+        </button>
       </div>
     </div>
   </div>
@@ -27,56 +62,17 @@
 
 <script>
 export default {
-  data() {
-    return {
-      index: 1,
-      dataProduct: {
-        id: 0,
-        title: "",
-        category: "",
-        description: "",
-        image: "",
-        price: 0,
-        rate: 0,
-      },
-    };
-  },
-  mounted() {
-    fetch(`https://fakestoreapi.com/products/1`)
-      .then((res) => res.json())
-      .then((data) => {
-        this.dataProduct.id = data.id;
-        this.dataProduct.title = data.title;
-        this.dataProduct.category = data.category;
-        this.dataProduct.description = data.description;
-        this.dataProduct.image = data.image;
-        this.dataProduct.price = data.price;
-        this.dataProduct.rate = data.rating.rate;
-      })
-      .catch((err) => console.error(err));
-  },
   methods: {
     async fetchData() {
-      if (this.index == 20) {
-        this.index = 1;
-      } else {
-        this.index += 1;
-      }
+      this.$store.dispatch("SET_NEW_INDEX");
 
       const data = await fetch(
-        `https://fakestoreapi.com/products/${this.index}`
+        `https://fakestoreapi.com/products/${this.$store.state.index}`
       );
 
       const result = await data.json();
 
-      console.log(result);
-      this.dataProduct.id = result.id;
-      this.dataProduct.title = result.title;
-      this.dataProduct.category = result.category;
-      this.dataProduct.description = result.description;
-      this.dataProduct.image = result.image;
-      this.dataProduct.price = result.price;
-      this.dataProduct.rate = result.rating.rate;
+      this.$store.dispatch("NEW_DATA_PRODUCT", result);
     },
   },
 };
@@ -152,6 +148,29 @@ export default {
 }
 .next-button {
   background-color: white;
-  border: solid 3px blueviolet;
+}
+
+.women-text {
+  color: var(--pink-button);
+}
+
+.man-text {
+  color: var(--blue-button);
+}
+
+.man-border-next-button {
+  border: solid 3px var(--blue-button);
+}
+
+.women-border-next-button {
+  border: solid 3px var(--pink-button);
+}
+
+.man-buy-button {
+  background-color: var(--blue-button);
+}
+
+.women-buy-button {
+  background-color: var(--pink-button);
 }
 </style>
