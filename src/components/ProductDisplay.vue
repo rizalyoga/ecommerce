@@ -1,29 +1,60 @@
 <template>
   <div class="product-container">
     <div class="product-image">
-      <img src="../assets/image/image-baju.png" alt="product-image" />
+      <img :src="$store.state.dataProduct.image" alt="product-image" />
     </div>
     <div class="product-description">
-      <h2>
-        Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket
+      <h2
+        :class="{
+          'women-text': $store.state.dataProduct?.category?.includes('women'),
+          'man-text': !$store.state.dataProduct?.category?.includes('women'),
+        }"
+      >
+        {{ $store.state.dataProduct.title }}
       </h2>
       <div class="gender-and-rate-wrapper">
-        <p>women's clothing</p>
-        <p>29.5</p>
+        <p>{{ $store.state.dataProduct.category }}</p>
+        <p>{{ $store.state.dataProduct?.rating?.rate }}/5</p>
       </div>
       <div class="horizontal-line"></div>
       <p class="content-description">
-        100% POLYURETHANE(shell) 100% POLYESTER(lining) 75% POLYESTER 25% COTTON
-        (SWEATER), Faux leather material for style and comfort / 2 pockets of
-        front, 2-For-One Hooded denim style faux leather jacket, Button detail
-        on waist / Detail stitching at sides, HAND WASH ONLY / DO NOT BLEACH /
-        LINE DRY / DO NOT IRON
+        {{ $store.state.dataProduct.description }}
       </p>
       <div class="horizontal-line"></div>
-      <h3>$29.95</h3>
+      <h3
+        :class="{
+          'women-text': $store.state.dataProduct?.category?.includes('women'),
+          'man-text': !$store.state.dataProduct?.category?.includes('women'),
+        }"
+      >
+        ${{ $store.state.dataProduct.price }}
+      </h3>
       <div class="buttons-container">
-        <button class="buy-button">Buy now</button>
-        <button class="next-button" @click="fetchData">Next product</button>
+        <button
+          class="buy-button"
+          :class="{
+            'women-buy-button':
+              $store.state.dataProduct?.category.includes('women'),
+            'man-buy-button':
+              !$store.state.dataProduct?.category.includes('women'),
+          }"
+        >
+          Buy now
+        </button>
+        <button
+          class="next-button"
+          :class="{
+            'women-text': $store.state.dataProduct?.category.includes('women'),
+            'women-border-next-button':
+              $store.state.dataProduct?.category.includes('women'),
+            'man-text': !$store.state.dataProduct?.category.includes('women'),
+            'man-border-next-button':
+              !$store.state.dataProduct?.category.includes('women'),
+          }"
+          @click="fetchData"
+        >
+          Next product
+        </button>
       </div>
     </div>
   </div>
@@ -31,52 +62,38 @@
 
 <script>
 export default {
-  data() {
-    return {
-      index: 19,
-    };
-  },
-  mounted: async () => {
-    const data = await fetch(`https://fakestoreapi.com/products/1`);
-    const result = await data.json();
-
-    console.log(result);
-  },
   methods: {
     async fetchData() {
-      if (this.index == 20) {
-        this.index = 1;
-      } else {
-        this.index += 1;
-      }
+      this.$store.dispatch("SET_NEW_INDEX");
 
       const data = await fetch(
-        `https://fakestoreapi.com/products/${this.index}`
+        `https://fakestoreapi.com/products/${this.$store.state.index}`
       );
 
       const result = await data.json();
 
-      console.log(result);
+      this.$store.dispatch("NEW_DATA_PRODUCT", result);
     },
   },
 };
 </script>
 
-<style scoped>
+<style>
 .product-image {
   flex-basis: 40%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top: 80px;
 }
 
 .product-image img {
-  width: 301px;
+  width: 320px;
   height: 383px;
 }
 .product-description {
   flex-basis: 60%;
   padding: 0 40px;
+  padding-top: 30px;
 }
 
 .product-description h2 {
@@ -92,18 +109,23 @@ export default {
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
+  color: var(--category-text);
 }
 
 .content-description {
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
+  min-height: 150px;
+  max-height: 150px;
   padding-bottom: 20px;
+  color: var(--description-text);
+  overflow-y: scroll;
 }
 
 .horizontal-line {
   height: 1.5px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--line-color);
 }
 
 .buttons-container {
@@ -122,9 +144,33 @@ export default {
 }
 .buy-button {
   color: white;
+  border: none;
 }
 .next-button {
   background-color: white;
-  border: solid 3px blueviolet;
+}
+
+.women-text {
+  color: var(--pink-button);
+}
+
+.man-text {
+  color: var(--blue-button);
+}
+
+.man-border-next-button {
+  border: solid 3px var(--blue-button);
+}
+
+.women-border-next-button {
+  border: solid 3px var(--pink-button);
+}
+
+.man-buy-button {
+  background-color: var(--blue-button);
+}
+
+.women-buy-button {
+  background-color: var(--pink-button);
 }
 </style>
