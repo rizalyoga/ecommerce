@@ -1,7 +1,60 @@
-# Vue 3 + Vite
+<div align="center">
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+<!-- PROJECT LOGO -->
 
-## Recommended IDE Setup
+# Ecommerce
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+<img src="src/assets/image/ecommerce-icon.png" width=300 height=300 alt="Logo" width="250" height="auto" />
+</div>
+
+> Ecommerce merupakan projek akhir dari program Core Initiative Frontend Virtual Internship Program
+
+## ✨ Demo
+
+Here is a working live demo : [Demo](https://ecommerce-rizalyoga.web.app/)
+
+## 🔮 Features
+
+- Fetch data from fakestore api.
+- change the display color based on product category
+
+## 🖼️ UI Preview
+
+<img src="src/assets/ecommerce-ui.png" width=100%  alt="Logo"  />
+
+## 🧰 Run in locale
+
+To clone and run this website, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [yarn](https://yarnpkg.com/) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/rizalyoga/ecommerce.git
+
+# Go into the repository
+$ cd ecommerce
+
+# Install dependencies
+$ yarn
+
+# Run the app
+$ yarn dev
+
+```
+
+## ⛏️ Built With
+
+- [Vite](https://vitejs.dev/)
+- [Vue js](https://vuejs.org/)
+- [Fakestore api](https://fakestoreapi.com/)
+
+## 👤 Authors
+
+- [Rizalyoga](https://github.com/rizalyoga/)
+
+<!-- ## 🙊 Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`REACT_APP_API_URL`
+
+That contains the endpoint for the backend -->
