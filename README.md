@@ -2,7 +2,7 @@
 
 <!-- PROJECT LOGO -->
 
-# Ecommerce
+# Ecommerce-catalog
 
 <img src="src/assets/image/ecommerce-icon.png" width=300 height=300 alt="Logo" width="250" height="auto" />
 </div>
@@ -28,10 +28,10 @@ To clone and run this website, you'll need [Git](https://git-scm.com) and [Node.
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/rizalyoga/ecommerce.git
+$ git clone https://github.com/rizalyoga/ecommerce-catalog.git
 
 # Go into the repository
-$ cd ecommerce
+$ cd ecommerce-catalog
 
 # Install dependencies
 $ yarn
