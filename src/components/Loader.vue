@@ -1,5 +1,5 @@
 <template>
-  <div class="product-container loader">
+  <div class="product-container">
     <div class="image-content">
       <div class="left-content"></div>
     </div>
@@ -10,11 +10,6 @@
 </template>
 
 <style>
-.loader {
-  z-index: 10;
-  position: fixed;
-}
-
 @keyframes shine {
   to {
     background-position-x: -200%;
@@ -23,8 +18,9 @@
 
 .image-content {
   flex-basis: 40%;
-  padding: 20px;
+  padding: 20px 0 20px 20px;
 }
+
 .description-content {
   flex-basis: 60%;
   padding: 20px;

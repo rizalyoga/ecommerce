@@ -14,7 +14,22 @@
       </h2>
       <div class="gender-and-rate-wrapper">
         <p>{{ $store.state.dataProduct.category }}</p>
-        <p>{{ $store.state.dataProduct?.rating?.rate }}/5</p>
+        <div class="rate-content">
+          <p>{{ $store.state.dataProduct?.rating?.rate }}/5</p>
+          <span
+            v-for="value in maxRate"
+            :key="value"
+            class="circle"
+            :class="{
+              'man-circle':
+                value < $store.state.dataProduct?.rating?.rate &&
+                !$store.state.dataProduct?.category?.includes('women'),
+              'women-circle':
+                value < $store.state.dataProduct?.rating?.rate &&
+                $store.state.dataProduct?.category?.includes('women'),
+            }"
+          ></span>
+        </div>
       </div>
       <div class="horizontal-line"></div>
       <p class="content-description">
@@ -62,6 +77,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      maxRate: [1, 2, 3, 4, 5],
+    };
+  },
   methods: {
     async fetchData() {
       this.$store.dispatch("SET_LOADING");
@@ -112,6 +132,30 @@ export default {
   font-size: 18px;
   line-height: 22px;
   color: var(--category-text);
+}
+
+.rate-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.circle {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--category-text);
+  border-radius: 20px;
+}
+
+.man-circle {
+  background-color: var(--blue-button);
+  border-color: var(--blue-button);
+}
+
+.women-circle {
+  background-color: var(--pink-button);
+  border-color: var(--pink-button);
 }
 
 .content-description {
