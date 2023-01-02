@@ -34,6 +34,7 @@ import Loader from "./components/Loader.vue";
 export default {
   mounted() {
     this.$store.dispatch("SET_LOADING");
+
     fetch(`https://fakestoreapi.com/products/1`)
       .then((res) => res.json())
       .then((data) => {
